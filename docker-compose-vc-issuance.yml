@@ -207,9 +207,18 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       VC_CERTIFY_TOPIC: 'vc-certify'
       POST_VC_CERTIFY_TOPIC: 'post-vc-certify'
-      VC_CERTIFICATION_SERVICE_URL: 'http://vc-certification-service:7654'
+      VC_CERTIFICATION_SERVICE_URL: "http://vc-certification-service:7654/vc-certification/v1/certificate/revoke"
     depends_on:
       vc-registry:
         condition: service_started
       kafka:
         condition: service_healthy
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8006:8080
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181      
